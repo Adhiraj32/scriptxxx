@@ -1,0 +1,52 @@
+#!/bin/bash
+
+# Set a variable for the build timestamp
+BUILD_TIMESTAMP=$(date "+%Y-%m-%d %H:%M:%S")
+
+# Log the start of the build
+echo "[INFO] Build started at ${BUILD_TIMESTAMP}"
+
+# Define a custom message
+MESSAGE="Hello, World! This is Jenkins, and the script is running with more advanced features."
+
+# Print the message
+echo "[INFO] ${MESSAGE}"
+
+# Simulate some work: create a temporary directory and file
+WORK_DIR="/tmp/jenkins_work_dir"
+mkdir -p ${WORK_DIR}
+echo "This is a test file created by Jenkins" > ${WORK_DIR}/test_file.txt
+echo "[INFO] Created test file in ${WORK_DIR}"
+
+# List files in the working directory (for demonstration)
+echo "[INFO] Listing files in ${WORK_DIR}:"
+ls -l ${WORK_DIR}
+
+# Loop: Print numbers from 1 to 5
+echo "[INFO] Looping through numbers:"
+for i in {1..5}; do
+    echo "[INFO] Number: ${i}"
+    sleep 1  # Simulate work by adding a small delay
+done
+
+# Conditional example: check if the test file exists
+if [[ -f "${WORK_DIR}/test_file.txt" ]]; then
+    echo "[INFO] The test file exists in ${WORK_DIR}."
+else
+    echo "[ERROR] The test file does not exist in ${WORK_DIR}. This is unexpected!"
+    exit 1
+fi
+
+# Error handling example: Try to change to a non-existent directory
+NON_EXISTENT_DIR="/non_existent_dir"
+echo "[INFO] Attempting to change to non-existent directory: ${NON_EXISTENT_DIR}"
+cd ${NON_EXISTENT_DIR} || { echo "[ERROR] Failed to change directory. Exiting..."; exit 1; }
+
+# Clean up: Remove the temporary work directory
+echo "[INFO] Cleaning up temporary files..."
+rm -rf ${WORK_DIR}
+echo "[INFO] Temporary files removed."
+
+# Final timestamp
+END_TIMESTAMP=$(date "+%Y-%m-%d %H:%M:%S")
+echo "[INFO] Build completed at ${END_TIMESTAMP}"
